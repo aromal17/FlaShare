@@ -1,6 +1,6 @@
 require('dotenv').config()
 const S3 = require("aws-sdk/clients/s3");
-const fs = require("fs");
+const fs = require("fs"); //for read stream
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const region = process.env.AWS_BUCKET_REGION;
@@ -16,14 +16,23 @@ const s3 = new S3({
 //file upload to S3
 function uploadFile(file){
     const fileStream = fs.createReadStream(file.path);
-
     const uploadParams = {
         Bucket : bucketName,
         Body : fileStream,
-        key : file.filename //name or unique key with which the file is to be stored 
+        Key : file.filename //name or unique key with which the file is to be stored 
     }
+    const res = s3.upload(uploadParams).promise();
+    return res;
+}
 
-    return s3.upload(uploadParams).promise();
+function getFile(fileKey){
+    const downloadParams = {
+        Key : fileKey,
+        Bucket : bucketName
+    }
+    const res = s3.getObject(downloadParams).createReadStream();
+    return res;
 }
 
 exports.uploadFile = uploadFile;
+exports.getFile = getFile;
