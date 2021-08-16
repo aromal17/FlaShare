@@ -1,5 +1,9 @@
 const express = require('express');
-const { read } = require('fs/promises');
+
+const fs = require('fs');
+const util = require('util')
+const unlinkFile = util.promisify(fs.unlink);
+
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
@@ -8,6 +12,8 @@ const { uploadFile, getFile }  = require('./s3');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+//downloading file
 app.get('/images/:key', async(req, res) => {
     const key = req.params.key;
     const readStream = await getFile(key);
@@ -20,7 +26,8 @@ app.post('/images', upload.single('image'), async(req, res) => {
     try {
         const file = req.file;
         const result = await uploadFile(file);
-        console.log("rseult is :", result)
+        await unlinkFile(file.path) //removing file from local server
+        console.log("result is :", result)
         res.send("File uploaded to server successfully");   
     } catch (error) {
         console.log("could not do the uploading")
