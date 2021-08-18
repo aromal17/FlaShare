@@ -6,8 +6,12 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ReactComponent as ReactLogo } from "../../resources/uploadimg.svg";
 import fileIcon from "../../resources/file.svg";
+
+toast.configure();
 export default function Main() {
 
   const inputFileRef = useRef();
@@ -16,7 +20,7 @@ export default function Main() {
   const progressContainerRef = useRef();
   const sharingConatinerRef = useRef();
   const [isUploading, setIsUploading] = useState(true);
-  const maxAllowedSize = 20 * 1024 * 1024; //20Mb
+  const maxAllowedSize = 50 * 1024 * 1024; //20Mb
   const serverUrl = "http://localhost:5000/files/";
   const [downloadUrl, setdownloadUrl] = useState();
   const [copyText, setCopyText] = useState("");
@@ -47,11 +51,13 @@ export default function Main() {
                 console.log("valid");
                 uploadFile();
             }else{
-                console.log("file size should be less than 20MB")
+                // console.log("file size should be less than 20MB");
+                toast.error("File size must be less than 50MB", {position : toast.POSITION.TOP_RIGHT});
             }
         }
         else{
-            console.log("Cant upload multiple files");
+            // console.log("Cant upload multiple files");
+            toast.error("Please upload one file at a time", {position : toast.POSITION.TOP_RIGHT});
         }
         dropZoneRef.current.classList.remove("dragged");
         console.log("file value :", inputFileRef.current.value);
@@ -59,7 +65,8 @@ export default function Main() {
 
     function handleFileChange(){
         if(inputFileRef.current.files[0].size > maxAllowedSize){
-            console.log("file size should be less than 20MB");
+            // console.log("file size should be less than 20MB");
+            toast.error("File size must be less than 50MB", {position : toast.POSITION.TOP_RIGHT});
             inputFileRef.current.value = "";
         }
         else
@@ -83,6 +90,7 @@ export default function Main() {
             // setCopyText(serverUrl + response.data);
             progressContainerRef.current.style["display"] = "none";
             sharingConatinerRef.current.style["display"] = "block";
+            toast.success("🚀 File uploaded successfully", {position : toast.POSITION.TOP_RIGHT});
             // setdownloadUrl(copyContainerRef.current.value);
         })
         .catch(function (error) {
