@@ -28,9 +28,9 @@ app.post('/images', upload.single('image'), async(req, res) => {
         const result = await uploadFile(file);
         await unlinkFile(file.path) //removing file from local server
         console.log("result is :", result)
-        res.send("File uploaded to server successfully");   
+        res.send(result.Key);   
     } catch (error) {
-        console.log("could not do the uploading")
+        console.log("Unable to upload file")
     }
    
 })
