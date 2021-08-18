@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 
 //downloading file
-app.get('/images/:key', async(req, res) => {
+app.get('/files/:key', async(req, res) => {
     const key = req.params.key;
     const readStream = await getFile(key);
     readStream.pipe(res);
@@ -22,7 +22,7 @@ app.get('/images/:key', async(req, res) => {
 
 
 //uploading file
-app.post('/images', upload.single('image'), async(req, res) => {
+app.post('/files', upload.single('file'), async(req, res) => {
     try {
         const file = req.file;
         const result = await uploadFile(file);
