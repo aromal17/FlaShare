@@ -1,7 +1,15 @@
 body{
     height:100vh;
  background-color: #EDF5FE;   
- /* background: url('./resources/background.svg') no-repeat ;
- background-size: 100% 100%; */
  margin : 0;
 }
+
+.error-img {
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:no-repeat center;
+    background-size: contain;
+  }
