@@ -151,7 +151,6 @@ export default function Main() {
                     </button>
                 </Tippy>
               </div>
-              {/* <a href= "http://localhost:5000/files/05dc4280b4a79a0e55825a3f79ce17ba" download="05dc4280b4a79a0e55825a3f79ce17ba">Click to download</a> */}
             </div>
           </section>
         </div>
