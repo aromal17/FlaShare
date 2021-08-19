@@ -23,7 +23,19 @@ header {
     bottom: 0px;
 }
 
+.quote{
+    margin: auto;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Lemonada', cursive;
+    text-align: center;
+}
 
+/* span{
+    color: #FECB63;
+    font-family: 'Lemonada', cursive;
+} */
 /* header login btn */
 
 
