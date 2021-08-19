@@ -20,7 +20,7 @@ export default function Main() {
   const progressContainerRef = useRef();
   const sharingConatinerRef = useRef();
   const [isUploading, setIsUploading] = useState(true);
-  const maxAllowedSize = 50 * 1024 * 1024; //20Mb
+  const maxAllowedSize = 30 * 1024 * 1024; //20Mb
   const serverUrl = "http://localhost:5000/files/";
   const [downloadUrl, setdownloadUrl] = useState();
   const [copyText, setCopyText] = useState("");
@@ -52,7 +52,7 @@ export default function Main() {
                 uploadFile();
             }else{
                 // console.log("file size should be less than 20MB");
-                toast.error("File size must be less than 50MB", {position : toast.POSITION.TOP_RIGHT});
+                toast.error("File size must be less than 30MB", {position : toast.POSITION.TOP_RIGHT});
             }
         }
         else{
@@ -66,7 +66,7 @@ export default function Main() {
     function handleFileChange(){
         if(inputFileRef.current.files[0].size > maxAllowedSize){
             // console.log("file size should be less than 20MB");
-            toast.error("File size must be less than 50MB", {position : toast.POSITION.TOP_RIGHT});
+            toast.error("File size must be less than 30MB", {position : toast.POSITION.TOP_RIGHT});
             inputFileRef.current.value = "";
         }
         else
@@ -97,8 +97,13 @@ export default function Main() {
           console.log(error);
       });
     }
-
-
+    
+    function copyClick(){
+      copyContainerRef.current.style["border-color"] = "#FDC006";
+      setTimeout(function(){
+        copyContainerRef.current.style["border-color"] = "#0288d147";  // Change the color back to the original
+      }, 2000);
+    }
 
   return (
     <>
@@ -138,7 +143,7 @@ export default function Main() {
                 <input type="text" id="fileURL" ref={copyContainerRef} readOnly = {true} value = " " />
                 {/* <i className="fa fa-copy fa-2x copyIcon"></i> */}
                 <Tippy placement='bottom' content="Copy to Clipboard">
-                    <button type="button" className="btn btn-light discuss-btn" id="discuss-bookmark-btn">
+                    <button type="button" className="btn btn-light discuss-btn" id="discuss-bookmark-btn" onClick={copyClick}>
                         <CopyToClipboard text={copyText}>
                             {/* <i className="fa fa-copy" ></i> */}
                             <i className="fa fa-copy fa-2x copyIcon"></i>
