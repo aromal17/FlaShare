@@ -2,6 +2,7 @@ const express = require('express');
 
 const fs = require('fs');
 const util = require('util')
+const cors = require('cors');
 const unlinkFile = util.promisify(fs.unlink);
 
 const multer  = require('multer');
@@ -11,6 +12,10 @@ const { uploadFile, getFile }  = require('./s3');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: process.env.CLIENT_URL
+}));
 
 
 //downloading file
